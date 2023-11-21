@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Product_ReviewWebAPI.Models
 {
@@ -11,13 +13,10 @@ namespace Product_ReviewWebAPI.Models
         public int Rating { get; set; }
 
 
-        public Product Product { get; set; }
-
-
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-       
 
+        public virtual Product Product { get; set; }
 
 
 

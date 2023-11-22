@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
-
+#nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
@@ -22,9 +22,8 @@ namespace Product_ReviewWebAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Price = table.Column<double>(type: "double", nullable: false),
-                    ReviewId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true),
+                    Price = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +37,7 @@ namespace Product_ReviewWebAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Text = table.Column<string>(type: "longtext", nullable: false),
+                    Text = table.Column<string>(type: "longtext", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -56,14 +55,14 @@ namespace Product_ReviewWebAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Name", "Price", "ReviewId" },
+                columns: new[] { "Id", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "Wok Pan", 29.989999999999998, 0 },
-                    { 2, "Heavy Duty Spatula", 4.9900000000000002, 0 },
-                    { 3, "Rice Cooker", 49.990000000000002, 0 },
-                    { 4, "Bamboo Steamer", 14.99, 0 },
-                    { 5, "Chopsticks Set", 9.9900000000000002, 0 }
+                    { 1, "Wok Pan", 29.989999999999998 },
+                    { 2, "Heavy Duty Spatula", 4.9900000000000002 },
+                    { 3, "Rice Cooker", 49.990000000000002 },
+                    { 4, "Bamboo Steamer", 14.99 },
+                    { 5, "Chopsticks Set", 9.9900000000000002 }
                 });
 
             migrationBuilder.InsertData(
@@ -89,31 +88,14 @@ namespace Product_ReviewWebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ReviewId",
-                table: "Products",
-                column: "ReviewId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",
                 table: "Reviews",
                 column: "ProductId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Products_Reviews_ReviewId",
-                table: "Products",
-                column: "ReviewId",
-                principalTable: "Reviews",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Products_Reviews_ReviewId",
-                table: "Products");
-
             migrationBuilder.DropTable(
                 name: "Reviews");
 

@@ -12,13 +12,5 @@ namespace Product_ReviewWebAPI.Models
         public double Price { get; set; }
         public ICollection<Review> Reviews { get; set; }
 
-
-
-
-
-
-
-
-
     }
 }

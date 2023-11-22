@@ -10,8 +10,8 @@ using Product_ReviewWebAPI.Data;
 namespace Product_ReviewWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231122172754_MovedForeignKey")]
-    partial class MovedForeignKey
+    [Migration("20231122193633_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

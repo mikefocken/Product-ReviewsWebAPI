@@ -2,6 +2,7 @@
 using Product_ReviewWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Product_ReviewWebAPI.Models;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,7 +26,7 @@ namespace Product_ReviewWebAPI.Controllers
         public IActionResult Get()
         {
             var products = _context.Products.ToList();
-            return Ok();
+            return Ok(products);
 
         }
 
@@ -49,7 +50,7 @@ namespace Product_ReviewWebAPI.Controllers
         {
             _context.Products.Add(product);
             _context.SaveChanges();
-            return Ok(product);
+            return StatusCode(201,product);
         }
 
         // PUT api/Products
@@ -73,22 +74,23 @@ namespace Product_ReviewWebAPI.Controllers
 
         }
 
-        // DELETE api/<ProductsController>/5
-        [HttpDelete("{id}")]
+        // DELETE api/Products
+     
+   [HttpDelete("{id}")]
         public IActionResult Delete(int id) 
         {
-            var product =_context.Products.FirstOrDefault(product=>product.Id == id);
+            var productFromDb=_context.Products.Find(id);
+            //var product =_context.Products.FirstOrDefault(product=>product.Id == id);
 
-            if (product != null)
+            if (productFromDb== null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Products.Remove(productFromDb);
             _context.SaveChanges();
-            return Ok(product);
+            return Ok(new {message = "Product was deleted",deletedProductId =id});
 
         }
-
     }
 }

@@ -76,7 +76,7 @@ namespace Product_ReviewWebAPI.Controllers
 
             _context.Reviews.Remove(review);
             _context.SaveChanges();
-            return NoContent();
+            return Ok(new { message = "Review was deleted", deletedProductId = id });
 
 
         }

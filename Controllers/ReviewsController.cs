@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Product_ReviewWebAPI.Data;
+using Product_ReviewWebAPI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,36 +15,70 @@ namespace Product_ReviewWebAPI.Controllers
         {
             _context = context;
         }
-        // GET: api/<ReviewsController>
+        // GET: api/Reviews
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var reviews = _context.Reviews.ToList();
+            return Ok(reviews);
         }
 
-        // GET api/<ReviewsController>/5
+        // GET api/Reviews 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var review= _context.Reviews.FirstOrDefault(r=> r.Id == id);
+            if (review == null)
+            {
+                return NotFound();
+            }
+            return Ok(review);
         }
 
-        // POST api/<ReviewsController>
+        // POST api/Reviews
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Review  review)
         {
+            _context.Reviews.Add(review);
+            _context.SaveChanges();
+            return Ok(review);
+
         }
 
-        // PUT api/<ReviewsController>/5
+        // PUT api/Reviews
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Review review)
         {
+            var existing=_context.Reviews.FirstOrDefault(r => r.Id == id);
+            
+            if ( existing == null)
+            {
+                return NotFound();
+            }
+                        
+
+            _context.SaveChanges();
+
+            return Ok();
+
         }
 
-        // DELETE api/<ReviewsController>/5
+        // DELETE api/Reviews
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var review=_context.Reviews.FirstOrDefault(r=>r.Id == id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
+            return NoContent();
+
+
         }
     }
 }

@@ -24,18 +24,23 @@ namespace Product_ReviewWebAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var movies = _context.Products.ToList();
-
-
+            var products = _context.Products.ToList();
             return Ok();
 
         }
 
-        // GET api/<ProductsController>/5
+        // GET api/Products
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var product = _context.Products.Find(id);
+
+           if (product == null)
+           {
+                return NotFound();
+           }
+           
+            return Ok (product);
         }
 
         // POST api/Products
@@ -49,14 +54,41 @@ namespace Product_ReviewWebAPI.Controllers
 
         // PUT api/Products
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put (int id, [FromBody] Product product)
         {
+            var productFromDb=_context.Products.Find(id);
+            if (productFromDb== null)
+            {
+                return NotFound();
+            }
+          
+            /// update these items for Product
+            productFromDb.Name= product.Name;
+            productFromDb.Price= product.Price;
+            
+            _context.Products.Update(productFromDb);
+            _context.SaveChanges();
+
+            return Ok(product);
+
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id) 
         {
+            var product =_context.Products.FirstOrDefault(product=>product.Id == id);
+
+            if (product != null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+            return Ok(product);
+
         }
+
     }
 }

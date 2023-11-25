@@ -3,6 +3,9 @@ using Product_ReviewWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Product_ReviewWebAPI.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using ZstdSharp.Unsafe;
+using Product_ReviewWebAPI.DTOs;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,27 +24,48 @@ namespace Product_ReviewWebAPI.Controllers
         }
 
 
-        // GET: api/Products
+        // GET: api/Products?maxPrice=20
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] string? maxprice)
         {
             var products = _context.Products.ToList();
-            return Ok(products);
 
+            if (!string.IsNullOrEmpty(maxprice) && float.TryParse(maxprice, out float parsePrice))
+            {
+                products = products.Where(product => product.Price <= parsePrice).ToList();
+                return Ok(products);
+            }
+                       
+            return BadRequest("Invalid price format");
         }
+        
 
-        // GET api/Products
+        // GET api/Product
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products.Include(product=>product.Reviews).FirstOrDefault(product=>product.Id ==id);
 
            if (product == null)
            {
                 return NotFound();
            }
-           
-            return Ok (product);
+ 
+            var productDTO = new ProductDTO
+            {
+                ProductId= product.Id,
+                Name=product.Name,
+                Price=product.Price,
+                Reviews=product.Reviews?.Select(review => new ReviewDTO
+                { 
+                    Text=review.Text,
+                    Rating=review.Rating,
+                })? .ToList() ?? new List <ReviewDTO>(),
+              AverageRating =product.Reviews?.Average(review=>review.Rating)??0.0
+            };
+            
+            productDTO.AverageRating=Math.Round(productDTO.AverageRating,2);
+            return Ok (productDTO);
         }
 
         // POST api/Products
@@ -76,7 +100,7 @@ namespace Product_ReviewWebAPI.Controllers
 
         // DELETE api/Products
      
-   [HttpDelete("{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id) 
         {
             var productFromDb=_context.Products.Find(id);

@@ -88,8 +88,8 @@ namespace Product_ReviewWebAPI.Controllers
             {
                 return NotFound();
             }
-                        
 
+            existing.Text= pdatedReview.Text;
             _context.SaveChanges();
 
             return Ok();

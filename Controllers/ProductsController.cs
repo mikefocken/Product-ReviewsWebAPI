@@ -38,9 +38,20 @@ namespace Product_ReviewWebAPI.Controllers
                        
             return BadRequest("Invalid price format");
         }
+
+
+        //get: api/Products/all
+        [HttpGet("all")]
+
+        public IActionResult GetALL()
+        {
+            var products = _context.Products.ToList();
+            return Ok(products);
+        }
+
         
 
-        // GET api/Product
+        // GET api/Products
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -61,7 +72,7 @@ namespace Product_ReviewWebAPI.Controllers
                     Text=review.Text,
                     Rating=review.Rating,
                 })? .ToList() ?? new List <ReviewDTO>(),
-              AverageRating =product.Reviews?.Average(review=>review.Rating)??0.0
+              AverageRating =product.Reviews?.Any()==true? Math.Round(product.Reviews.Average(review=>review.Rating),2) : 0.0
             };
             
             productDTO.AverageRating=Math.Round(productDTO.AverageRating,2);
@@ -104,16 +115,17 @@ namespace Product_ReviewWebAPI.Controllers
         public IActionResult Delete(int id) 
         {
             var productFromDb=_context.Products.Find(id);
-            //var product =_context.Products.FirstOrDefault(product=>product.Id == id);
+            //var product = _context.Products.FirstOrDefault(product => product.Id == id);
 
             if (productFromDb== null)
             {
-                return NotFound();
+                return NotFound(new {message ="Product not found"});
             }
 
             _context.Products.Remove(productFromDb);
             _context.SaveChanges();
-            return Ok(new {message = "Product was deleted",deletedProductId =id});
+
+            return Ok();
 
         }
     }

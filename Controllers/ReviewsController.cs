@@ -61,10 +61,6 @@ namespace Product_ReviewWebAPI.Controllers
 
             return Ok(reviews);
 
-
-
-
-
         }
 
 
@@ -72,6 +68,16 @@ namespace Product_ReviewWebAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Review review)
         {
+            if (review.ProductId <=0) 
+            {
+                return BadRequest("ProductId must be specified and greater then 0. ");
+            }
+
+            var existingProduct=_context.Products.Any(product=>product.Id == review.ProductId);
+            if (!existingProduct) 
+            {
+                return NotFound("specified ProductId does not exist");
+            }
             _context.Reviews.Add(review);
             _context.SaveChanges();
             return Ok(review);
@@ -82,14 +88,16 @@ namespace Product_ReviewWebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Review review)
         {
-            var existing=_context.Reviews.FirstOrDefault(r => r.Id == id);
-            
-            if ( existing == null)
+            var reviewFromDb = _context.Reviews.Find(id);
+            if (reviewFromDb  == null)
             {
                 return NotFound();
             }
 
-            existing.Text= pdatedReview.Text;
+            reviewFromDb.Text= review.Text;
+            reviewFromDb.Rating= review.Rating;
+
+            _context.Reviews.Update(reviewFromDb);
             _context.SaveChanges();
 
             return Ok();

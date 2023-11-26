@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "8edccc67-4a48-4d05-be45-6d01b6e80dae",
+		"name": "Reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31184233"
+	},
+	"item": [
+		{
+			"name": "Get All Reviews",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Name\": \"Tong\",\r\n\"Price\": 3.14\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by ReviewID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Name\": \"Tong\",\r\n\"Price\": 3.14\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews/17",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews",
+						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by Product ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Name\": \"Tong\",\r\n\"Price\": 3.14\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews/ByProductId/16",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews",
+						"ByProductId",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Reviews",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Name\": \"soup ladel\",\r\n\"Price\": 11.99\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Update Review",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"id\": 15,\r\n        \"text\": \" Tested somewhat Convenient for steaming various dishes.\",\r\n        \"rating\": 1,\r\n        \"productId\": 5,\r\n        \"product\": null\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews/15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post  Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n        \"id\": 0,\r\n        \"text\": \"tested and approaved.\",\r\n        \"rating\": 2,\r\n        \"productId\": 16\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7296/api/Reviews",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7296",
+					"path": [
+						"api",
+						"Reviews"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
